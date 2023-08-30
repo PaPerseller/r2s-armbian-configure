@@ -109,7 +109,7 @@ systemctl start v2raya.service
 systemctl enable v2raya.service
 ```
 按照下图配置 v2raya，RoutingA 配置可参考 https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
-![](vraya.png)
+![](v2raya.png)
 
 ## 一些额外设置
 ### 自动更新 xray 和 mosdns 资源文件
