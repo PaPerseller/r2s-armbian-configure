@@ -125,6 +125,12 @@ iptables -t nat -A PREROUTING -p udp --dport 53 -j ACCEPT
 iptables -t nat -A PREROUTING -p tcp --dport 3000 -j ACCEPT
 iptables -t nat -A PREROUTING -d armbian主机ip地址 -p tcp --dport 80 -j ACCEPT
 ```
+保存防火墙设置
+```
+apt install iptables-persistent -y
+netfilter-persistent save
+netfilter-persistent reload
+```
 
 ## PS.
 系统默认最高频率 1296MHz，目前大多数适配 R2S 的 openwrt 系统均可超频至 1512MHz 稳定运行。但在 armbian 下超频需更改 dtb 文件并重新编译内核，且相差的性能对于旁路网关来说感知不大，不想折腾可以放弃超频。
@@ -137,3 +143,6 @@ iptables -t nat -A PREROUTING -d armbian主机ip地址 -p tcp --dport 80 -j ACCE
 * https://blog.haibara.cn/archives/70
 * https://www.youtube.com/watch?v=6-OCKzW381Q&t=1577s
 * https://github.com/sbwml/luci-app-mosdns 项目中的 geo-update 脚本
+* https://github.com/Hackl0us/GeoIP2-CN
+* https://github.com/QiuSimons/openwrt-mos/
+* https://github.com/Loyalsoldier/v2ray-rules-dat
