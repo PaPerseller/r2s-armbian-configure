@@ -83,7 +83,7 @@ mv /root/mosdns/mosdns /usr/bin/
 chmod +x /usr/bin/mosdns
 mosdns service install -d /usr/bin -c /etc/mosdns/config.yaml
 ```
-配置文件及规则文件可自行配置，也可参考使用此项目 mosdns 目录中相关文件并放入 /etc/mosdns 中。
+配置文件及规则文件可自行配置，也可参考使用此项目 mosdns 目录中相关文件并放入 /etc/mosdns 中。config.yaml 中 forward_local 地址端口应指向 AdguardHome 监听端口。
 
 启动并加入开机自启
 ```
