@@ -44,11 +44,9 @@ GOVERNOR=schedutil
 重启 cpufrequtils 服务
 ```
 systemctl daemon-reload
-```
-```
 systemctl restart cpufrequtils
 ```
-192.168.88.117
+
 ## 安装 AdGuard Home
 使用官方一键脚本
 ```
@@ -58,34 +56,35 @@ curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/s
 
 ## 安装并配置 mosdns
 
-下载
+### 下载
 ```
 wget https://github.com/IrineSistiana/mosdns/releases/download/v5.1.3/mosdns-linux-arm64.zip
 ```
-创建 mosdns 资源目录
+
+### 检查 53 端口占用并停用相关服务
 ```
-mkdir /etc/mosdns
-```
-检查 53 端口占用
-```
+#检查占用
 lsof -i :53
-```
-若有其他服务占用则停用
-```
+
+#若有其他服务占用则停用
 systemctl stop 服务名
-```
-关闭占用服务的开机自启
-```
+
+#关闭占用服务的开机自启
 systemctl disable 服务名
 ```
 重新检查 53 端口占用
 
+### 安装
 安装 zip 工具并解压 mosdns 预编译文件
 ```
 apt install zip -y
 unzip -o -d mosdns mosdns-linux-arm64.zip
 ```
-安装
+
+创建 mosdns 资源目录
+```
+mkdir /etc/mosdns
+```
 ```
 mv /root/mosdns/mosdns /usr/bin/
 chmod +x /usr/bin/mosdns
