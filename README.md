@@ -100,8 +100,9 @@ systemctl enable mosdns
 systemctl start v2raya.service
 systemctl enable v2raya.service
 ```
-按照下图配置 v2raya
+按照下图配置 v2raya  
 ![](v2raya.png)
+
 RoutingA 配置可参考 https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
 
 ## 一些额外设置
