@@ -75,17 +75,10 @@ systemctl disable 服务名
 重新检查 53 端口占用
 
 ### 安装
-安装 zip 工具并解压 mosdns 预编译文件
 ```
 apt install zip -y
 unzip -o -d mosdns mosdns-linux-arm64.zip
-```
-
-创建 mosdns 资源目录
-```
 mkdir /etc/mosdns
-```
-```
 mv /root/mosdns/mosdns /usr/bin/
 chmod +x /usr/bin/mosdns
 mosdns service install -d /usr/bin -c /etc/mosdns/config.yaml
@@ -107,8 +100,9 @@ systemctl enable mosdns
 systemctl start v2raya.service
 systemctl enable v2raya.service
 ```
-按照下图配置 v2raya，RoutingA 配置可参考 https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
+按照下图配置 v2raya
 ![](v2raya.png)
+RoutingA 配置可参考 https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
 
 ## 一些额外设置
 ### 自动更新 xray 和 mosdns 资源文件
@@ -117,7 +111,7 @@ systemctl enable v2raya.service
 ```
 mkdir /root/script
 ```
-编辑 /etc/crontab 将以下两行加入
+编辑定时任务 `nano /etc/crontab` 将以下两行加入
 ```
 0  2    * * *   root    /root/script/geodat.sh
 0  4    * * *   root    /root/script/geotxt.sh
@@ -139,6 +133,6 @@ iptables -t nat -A PREROUTING -d armbian主机ip地址 -p tcp --dport 80 -j ACCE
 本流程也可用于非 armbian 的 Linux 系统搭建旁路网关环境。
 
 ## 参考 & 致谢
-https://blog.haibara.cn/archives/70
-https://www.youtube.com/watch?v=6-OCKzW381Q&t=1577s
-https://github.com/sbwml/luci-app-mosdns 项目中的 geo-update 脚本
+* https://blog.haibara.cn/archives/70
+* https://www.youtube.com/watch?v=6-OCKzW381Q&t=1577s
+* https://github.com/sbwml/luci-app-mosdns 项目中的 geo-update 脚本
