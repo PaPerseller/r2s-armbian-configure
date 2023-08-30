@@ -91,7 +91,7 @@ mv /root/mosdns/mosdns /usr/bin/
 chmod +x /usr/bin/mosdns
 mosdns service install -d /usr/bin -c /etc/mosdns/config.yaml
 ```
-配置文件及规则文件可自行配置，也可参考使用此项目中相关文件。
+配置文件及规则文件可自行配置，也可参考使用此项目 mosdns 目录中相关文件并放入 /etc/mosdns 中。
 
 启动并加入开机自启
 ```
