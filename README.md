@@ -133,7 +133,7 @@ netfilter-persistent reload
 ```
 
 ## PS.
-系统默认最高频率 1296MHz，目前大多数适配 R2S 的 openwrt 系统均可超频至 1512MHz 稳定运行。但在 armbian 下超频需更改 dtb 文件并重新编译内核，且相差的性能对于旁路网关来说感知不大，不想折腾可以放弃超频。
+系统默认最高频率 1296MHz，目前适配 R2S 的多数 openwrt 系统可超频至 1512MHz 稳定运行。armbian 下 coremark 多核分数为 16933 ，相比 openwrt 下低了近 16% 。但在 armbian 下超频需更改 dtb 文件并重新编译内核，且相差的极限性能对于旁路网关来说感知不大。
 
 内核中存在 pwm-fan 模块，难以启用。LED 灯控制无有效参考资源难以启用。
 
