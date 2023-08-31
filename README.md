@@ -113,14 +113,15 @@ TUN 模式下透明代理参考配置文件： https://raw.githubusercontent.com
 ## 一些额外设置
 ### 自动更新 xray 和 mosdns 资源文件
 
-新建脚本目录并上传本项目中 geodat.sh 和 geotxt.sh
+新建脚本目录并上传本项目中 geodat.sh、geotxt.sh、geodb.sh
 ```
 mkdir /root/script
 ```
 编辑定时任务 `nano /etc/crontab` 将以下两行加入
 ```
 0  2    * * *   root    /root/script/geodat.sh
-0  4    * * *   root    /root/script/geotxt.sh
+0  3    * * *   root    /root/script/geotxt.sh
+0  4    * * *   root    /root/script/geodb.sh
 ```
 ### iptables 防火墙（可能有误）
 ```
