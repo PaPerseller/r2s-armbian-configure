@@ -1,5 +1,5 @@
  # r2s-armbian-configure
- 由于目前网上关于 R2S 使用 armbian 并将其作为旁路网关的内容较为分散且稀少，故将本人配置过程记录以作备份和参考。目前方案为 mosdns 分流 + Adguard home 国内域名解析 + v2raya 代理。
+ 由于目前网上关于 R2S 使用 armbian 并将其作为旁路网关的内容较为分散且稀少，故将本人配置过程记录以作备份和参考。目前方案为 mosdns 分流 + Adguard home 国内域名解析 + v2raya/sing-box 代理。
  
  ## armbian 的安装与基础配置
  以下内容基于 Armbian 23.05.1 Bookworm CLI 版本，默认在 root 用户下操作。
@@ -90,7 +90,7 @@ mosdns service install -d /usr/bin -c /etc/mosdns/config.yaml
 mosdns service start
 systemctl enable mosdns
 ```
-## 安装并配置 v2raya
+## 代理方案一：安装并配置 v2raya
 根据官方安装项目安装 xray：https://github.com/XTLS/Xray-install
 
 根据 v2raya 文档安装 v2raya: https://v2raya.org/en/docs/prologue/installation/debian/
@@ -103,7 +103,12 @@ systemctl enable v2raya.service
 按照下图配置 v2raya  
 ![](v2raya.png)
 
-RoutingA 配置可参考 https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
+RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
+
+## 代理方案二：安装并配置 sing-box
+可使用 [KoinuDayo/Sing-box-Install](https://github.com/KoinuDayo/Sing-box-Install) 项目脚本安装 sing-box
+
+TUN 模式下透明代理参考配置文件： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box_tungate.json
 
 ## 一些额外设置
 ### 自动更新 xray 和 mosdns 资源文件
