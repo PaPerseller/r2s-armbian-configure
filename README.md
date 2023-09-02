@@ -108,7 +108,7 @@ RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-ip
 ## 代理方案二：安装并配置 sing-box
 可使用 [KoinuDayo/Sing-box-Install](https://github.com/KoinuDayo/Sing-box-Install) 项目脚本安装 sing-box
 
-TUN 模式下透明代理参考配置文件： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box_tungate.json
+TUN 模式下透明代理参考配置文件（此配置未经长期测试，可能有误）： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box_tungate.json
 
 ## 一些额外设置
 ### 自动更新 xray 和 mosdns 资源文件
