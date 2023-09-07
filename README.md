@@ -2,7 +2,7 @@
  由于目前网上关于 R2S 使用 armbian 并将其作为旁路网关的内容较为分散且稀少，故将本人配置过程记录以作备份和参考。目前方案为 mosdns 分流 + Adguard home 国内域名解析 + v2raya/sing-box 代理。
  
  ## armbian 的安装与基础配置
- 以下内容基于 Armbian 23.05.1 Bookworm CLI 版本，默认在 root 用户下操作。
+ 以下内容基于 Armbian Bookworm CLI 版本，默认在 root 用户下操作。
 
 将烧录了 armbian 系统的 tf 卡插入机器通电启动，不会像 openwrt 一样表现为 sys 红灯闪烁直至系统启动完毕红灯常亮，而是红灯持续闪烁且 LAN、WAN 两口指示灯常关。此时需在主路由器上查看 armbian 被分配的内网地址且通过 ssh 进入进行初始化，并将网关与 dns 地址设为主路由地址。
 
