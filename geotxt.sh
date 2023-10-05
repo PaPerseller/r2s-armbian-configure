@@ -13,6 +13,11 @@ echo -e "\e[1;32mDownloading "$mirror"https://raw.githubusercontent.com/Loyalsol
 curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/geosite_cn.txt" ""$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/direct-list.txt"
 [ $? -ne 0 ] && rm -rf "$TMPDIR" && exit 1
 
+# apple-cn.txt
+echo -e "\e[1;32mDownloading "$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/apple-cn.txt\e[0m"
+curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/apple_cn.txt" ""$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/apple-cn.txt"
+[ $? -ne 0 ] && rm -rf "$TMPDIR" && exit 1
+
 # geosite-nocn.txt
 echo -e "\e[1;32mDownloading "$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/proxy-list.txt\e[0m"
 curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/geosite_no_cn.txt" ""$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/proxy-list.txt"
