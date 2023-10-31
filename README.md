@@ -58,7 +58,7 @@ curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/s
 
 ### 下载
 ```
-wget https://github.com/IrineSistiana/mosdns/releases/download/v5.1.3/mosdns-linux-arm64.zip
+wget https://github.com/IrineSistiana/mosdns/releases/latest/download/mosdns-linux-arm64.zip
 ```
 
 ### 检查 53 端口占用并停用相关服务
@@ -100,24 +100,24 @@ systemctl enable mosdns
 systemctl start v2raya.service
 systemctl enable v2raya.service
 ```
-按照下图配置 v2raya  
+添加节点并按照下图配置 v2raya  
 ![](v2raya.png)
 
 RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
 
 ## 代理方案二：安装并配置 sing-box
-可使用 [KoinuDayo/Sing-box-Install](https://github.com/KoinuDayo/Sing-box-Install) 项目脚本安装 sing-box
+可使用 [chise0713/sing-box-install](https://github.com/chise0713/sing-box-install) 项目脚本安装 sing-box
 
 TUN 模式下透明代理参考配置文件（此配置未经长期测试，可能有误）： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box_tungate.json
 
 ## 一些额外设置
-### 自动更新 xray 和 mosdns 资源文件
+### 自动更新 xray、sing-box 和 mosdns 资源文件
 
 新建脚本目录并上传本项目中 geodat.sh、geotxt.sh、geodb.sh
 ```
 mkdir /root/script
 ```
-编辑定时任务 `nano /etc/crontab` 将以下两行加入
+编辑定时任务 `nano /etc/crontab` 将以下三行加入
 ```
 0  2    * * *   root    /root/script/geodat.sh
 0  3    * * *   root    /root/script/geotxt.sh
