@@ -96,14 +96,12 @@ plugins:
         - addr: "https://1.0.0.1/dns-query"
           bootstrap: 127.0.0.1:Adg的dns服务端口
           enable_pipeline: false
-          max_conns: 2
           insecure_skip_verify: false
           idle_timeout: 30
           enable_http3: false
         - addr: "https://8.8.8.8/dns-query"
           bootstrap: 127.0.0.1:Adg的dns服务端口
           enable_pipeline: false
-          max_conns: 2
           insecure_skip_verify: false
           idle_timeout: 30
           enable_http3: false
