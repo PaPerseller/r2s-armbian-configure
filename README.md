@@ -150,7 +150,7 @@ netfilter-persistent reload
 ## 参考 & 致谢
 * https://blog.haibara.cn/archives/70
 * https://www.youtube.com/watch?v=6-OCKzW381Q&t=1577s
-* https://github.com/sbwml/luci-app-mosdns 项目中的 geo-update 脚本
+* https://github.com/sbwml/luci-app-mosdns
 * https://github.com/Hackl0us/GeoIP2-CN
 * https://github.com/QiuSimons/openwrt-mos/
 * https://github.com/Loyalsoldier/v2ray-rules-dat
