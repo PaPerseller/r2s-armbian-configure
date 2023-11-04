@@ -137,9 +137,34 @@ apt install iptables-persistent -y
 netfilter-persistent save
 netfilter-persistent reload
 ```
+### 超频（可选）
+
+系统默认最高频率 1296MHz，适配 R2S 的多数 openwrt 系统可超频至 1512MHz 稳定运行。armbian 下默认频率 coremark 多核分数为 16933 ，相比 openwrt 下低近 16% ，但相差的极限性能其实对于旁路网关感知不大。通过更改 dtb 文件额外提供两档频率：1392MHz 和 1512MHz。
+
+首先备份原系统目录 `/boot/dtb-kernel_version-current-rockchip64/rockchip` 内四个文件：`rk3328-nanopi-r2-rev00.dtb`、`rk3328-nanopi-r2-rev06.dtb`、`rk3328-nanopi-r2-rev20.dtb`、`rk3328-nanopi-r2s.dtb`，将项目内同名四个文件替换进去。
+
+然后编辑文件 `nano /etc/default/cpufrequtils` 并修改为
+```
+ENABLE=true
+MIN_SPEED=816000
+MAX_SPEED=1512000
+GOVERNOR=schedutil
+```
+
+重启系统并查看超频是否成功
+```
+cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_available_frequencies
+```
+```
+408000 600000 816000 1008000 1200000 1296000 1392000 1512000 
+408000 600000 816000 1008000 1200000 1296000 1392000 1512000 
+408000 600000 816000 1008000 1200000 1296000 1392000 1512000 
+408000 600000 816000 1008000 1200000 1296000 1392000 1512000
+```
+
+若未在 armbiam-config 中冻结内核更新，则需在每次内核更新后重新替换。
 
 ## PS.
-系统默认最高频率 1296MHz，目前适配 R2S 的多数 openwrt 系统可超频至 1512MHz 稳定运行。armbian 下 coremark 多核分数为 16933 ，相比 openwrt 下低了近 16% 。但在 armbian 下超频需更改 dtb 文件并重新编译内核，且相差的极限性能对于旁路网关来说感知不大。
 
 此套旁路网关透明代理方案与在 openwrt 中使用 mosdns + Adguard home + passwall 方案，cpu 和内存占用几乎一致。
 
@@ -154,3 +179,4 @@ netfilter-persistent reload
 * https://github.com/Hackl0us/GeoIP2-CN
 * https://github.com/QiuSimons/openwrt-mos/
 * https://github.com/Loyalsoldier/v2ray-rules-dat
+* https://kuokuo.io/2022/03/28/boost-nanopi-r4s/
