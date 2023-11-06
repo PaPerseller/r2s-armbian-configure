@@ -141,7 +141,7 @@ netfilter-persistent reload
 
 系统默认最高频率 1296MHz，适配 R2S 的多数 openwrt 系统可超频至 1512MHz 稳定运行。armbian 下默认频率 coremark 多核分数为 16933 ，相比 openwrt 下低近 16% ，但相差的极限性能其实对于旁路网关感知不大。通过更改 dtb 文件额外提供两档频率：1392MHz 和 1512MHz。
 
-首先备份原系统目录 `/boot/dtb-kernel_version-current-rockchip64/rockchip` 内四个文件：`rk3328-nanopi-r2-rev00.dtb`、`rk3328-nanopi-r2-rev06.dtb`、`rk3328-nanopi-r2-rev20.dtb`、`rk3328-nanopi-r2s.dtb`，将项目内同名四个文件替换进去。
+首先备份原系统目录 `/boot/dtb-kernel_version-current-rockchip64/rockchip` 内四个文件：`rk3328-nanopi-r2-rev00.dtb`、`rk3328-nanopi-r2-rev06.dtb`、`rk3328-nanopi-r2-rev20.dtb`、`rk3328-nanopi-r2s.dtb`，将项目内四个同名文件分别替换进去。
 
 然后编辑文件 `nano /etc/default/cpufrequtils` 并修改为
 ```
@@ -162,7 +162,7 @@ cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_available_frequencies
 408000 600000 816000 1008000 1200000 1296000 1392000 1512000
 ```
 
-若未在 armbiam-config 中冻结内核更新，则需在每次内核更新后重新替换。
+**若未在 armbiam-config 中冻结内核更新，则需在每次内核更新后重新替换。**
 
 ## PS.
 
