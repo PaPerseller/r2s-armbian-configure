@@ -168,7 +168,7 @@ GOVERNOR=schedutil
 
 ## PS.
 
-此套旁路网关透明代理方案与在 openwrt 中使用 mosdns + Adguard home + passwall 方案，cpu 和内存占用几乎一致。
+此旁路网关透明方案与在 openwrt 中使用 mosdns + Adguard home + passwall 方案，性能占用几乎一致。
 
 内核中存在 pwm-fan 模块，难以启用。LED 灯控制无有效参考资源难以启用。
 
