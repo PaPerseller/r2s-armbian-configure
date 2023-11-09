@@ -1,10 +1,10 @@
  # r2s-armbian-configure
- 由于目前网上关于 R2S 使用 armbian 并将其作为旁路网关的内容较为分散且稀少，故将本人配置过程记录以作备份和参考。目前方案为 mosdns 分流 + Adguard home 国内域名解析 + v2raya/sing-box 代理。
+ 由于目前网上关于 R2S 使用 armbian 并将其作为旁路网关的内容较为分散且稀少，故将本人配置过程记录以作备份和参考。目前方案为 mosdns 分流 + Adguard home 国内域名解析 + v2raya/sing-box。
  
  ## armbian 的安装与基础配置
  以下内容基于 Armbian Bookworm CLI 版本，默认在 root 用户下操作。
 
-将烧录了 armbian 系统的 tf 卡插入机器通电启动，不会像 openwrt 一样表现为 sys 红灯闪烁直至系统启动完毕红灯常亮，而是红灯持续闪烁且 LAN、WAN 两口指示灯常关。此时需在主路由器上查看 armbian 被分配的内网地址且通过 ssh 进入进行初始化，并将网关与 dns 地址设为主路由地址。
+将烧录了 armbian 系统的 tf 卡插入机器通电启动，不会像 openwrt 一样表现为 sys 红灯闪烁直至系统启动完毕红灯常亮，而是红灯双闪。此时需在主路由上查看 armbian 内网地址后通过 ssh 进入进行初始化，并将网关设为主路由地址。
 
 ### 更换国内源
 1、以清华源为例编辑  /etc/apt/sources.list 文件
@@ -90,7 +90,7 @@ mosdns service install -d /usr/bin -c /etc/mosdns/config.yaml
 mosdns service start
 systemctl enable mosdns
 ```
-## 代理方案一：安装并配置 v2raya
+## 透明网关方案一：安装并配置 v2raya
 根据官方安装项目安装 xray：https://github.com/XTLS/Xray-install
 
 根据 v2raya 文档安装 v2raya: https://v2raya.org/en/docs/prologue/installation/debian/
@@ -105,7 +105,7 @@ systemctl enable v2raya.service
 
 RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
 
-## 代理方案二：安装并配置 sing-box
+## 透明网关方案二：安装并配置 sing-box
 可使用 [chise0713/sing-box-install](https://github.com/chise0713/sing-box-install) 项目脚本安装 sing-box
 
 TUN 模式下透明代理参考配置文件（此配置未经长期测试，可能有误）： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box_tungate.json
@@ -123,12 +123,12 @@ mkdir /root/script
 0  3    * * *   root    /root/script/geotxt.sh
 0  4    * * *   root    /root/script/geodb.sh
 ```
-### iptables 防火墙（可能有误）
+### iptables 防火墙（可选，非必须）
 ```
 iptables -t nat -A PREROUTING -p tcp --dport 22 -j ACCEPT
 iptables -t nat -A PREROUTING -p tcp --dport 53 -j ACCEPT
 iptables -t nat -A PREROUTING -p udp --dport 53 -j ACCEPT
-iptables -t nat -A PREROUTING -p tcp --dport 3000 -j ACCEPT
+iptables -t nat -A PREROUTING -p tcp --dport adg管理地址 -j ACCEPT
 iptables -t nat -A PREROUTING -d armbian主机ip地址 -p tcp --dport 80 -j ACCEPT
 ```
 保存防火墙设置
@@ -139,19 +139,11 @@ netfilter-persistent reload
 ```
 ### 超频（可选）
 
-系统默认最高频率 1296MHz，适配 R2S 的多数 openwrt 系统可超频至 1512MHz 稳定运行。armbian 下默认频率 coremark 多核分数为 16933 ，相比 openwrt 下低近 16% ，但相差的极限性能其实对于旁路网关感知不大。通过更改 dtb 文件额外提供两档频率：1392MHz 和 1512MHz。
+armbian 在 cpu 默认最高频率 1.3Ghz 下 coremark 多核分数 16933 ，相比多数 openwrt 系统在 1.5Ghz 下 20000 分左右低近 15% ，相差的极限性能其实对于旁路网关感知不大。
 
-首先备份原系统目录 `/boot/dtb-kernel_version-current-rockchip64/rockchip` 内四个文件：`rk3328-nanopi-r2-rev00.dtb`、`rk3328-nanopi-r2-rev06.dtb`、`rk3328-nanopi-r2-rev20.dtb`、`rk3328-nanopi-r2s.dtb`，将项目内四个同名文件分别替换进去。
+使用 `armbian-config` 进入设置项 System -> Hardware 后勾选 rk3328-opp-1.4ghz 和 rk3328-opp-1.5ghz ，保存并应用系统重启。
 
-然后编辑文件 `nano /etc/default/cpufrequtils` 并修改为
-```
-ENABLE=true
-MIN_SPEED=816000
-MAX_SPEED=1512000
-GOVERNOR=schedutil
-```
-
-重启系统并查看超频是否成功
+查看超频是否成功
 ```
 cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_available_frequencies
 ```
@@ -162,7 +154,17 @@ cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_available_frequencies
 408000 600000 816000 1008000 1200000 1296000 1392000 1512000
 ```
 
-**若未在 armbiam-config 中冻结内核更新，则需在每次内核更新后重新替换。**
+然后编辑文件 `nano /etc/default/cpufrequtils` 并修改为
+```
+ENABLE=true
+MIN_SPEED=816000
+MAX_SPEED=1512000
+GOVERNOR=schedutil
+```
+重启 cpufrequtils 服务。
+
+注：armbian 设定 1.5Ghz 电压为 1.45v，部分 openwrt 设定为 1.4v。若使用 1.4v 方案，备份原文件 `/boot/dtb-kernel_version-current-rockchip64/rockchip/overlay/rockchip-rk3328-opp-1.5ghz.dtbo` 后将本项目内同名文件替换进去，执行上述超频步骤。**若未在 armbiam-config 中冻结内核更新，则需在每次内核更新后重新替换。**
+
 
 ## PS.
 
