@@ -170,7 +170,7 @@ GOVERNOR=schedutil
 
 此旁路网关透明方案与在 openwrt 中使用 mosdns + Adguard home + passwall 方案，性能占用几乎一致。
 
-内核中存在 pwm-fan 模块，难以启用。LED 灯控制无有效参考资源难以启用。
+dtb 中 pwm-fan 模块和 LED 灯控制还未找到额外参考参数，难以修改。
 
 本流程也可用于非 armbian 的 Linux 系统搭建旁路网关环境。
 
