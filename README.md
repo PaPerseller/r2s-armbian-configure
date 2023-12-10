@@ -108,7 +108,7 @@ RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-ip
 ## 透明网关方案二：安装并配置 sing-box
 可使用 [chise0713/sing-box-install](https://github.com/chise0713/sing-box-install) 项目脚本安装 sing-box
 
-TUN 模式下透明代理参考配置文件（此配置未经长期测试，可能有误）： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box_tungate.json
+TUN 模式下透明代理参考配置文件（此配置为个人方案，可能有误）： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box_tungate.json
 
 ## 一些额外设置
 ### 自动更新 xray、sing-box 和 mosdns 资源文件
