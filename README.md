@@ -2,9 +2,9 @@
  由于目前网上关于 R2S 使用 armbian 并将其作为旁路网关的内容较为分散且稀少，故将本人配置过程记录以作备份和参考。目前方案为 mosdns 分流 + Adguard home 国内域名解析 + v2raya/sing-box。
  
  ## armbian 的安装与基础配置
- 以下内容基于 Armbian Bookworm CLI 版本，默认在 root 用户下操作。
+ 以下内容基于 Armbian Bookworm CLI 版本，默认在 root 权限下操作。
 
-将烧录了 armbian 系统的 tf 卡插入机器通电启动，不会像 openwrt 一样表现为 sys 红灯闪烁直至系统启动完毕红灯常亮，而是红灯双闪。此时需在主路由上查看 armbian 内网地址后通过 ssh 进入进行初始化，并将网关设为主路由地址。
+将烧录了 armbian 系统的 tf 卡插入机器通电启动，不会像 openwrt 一样表现为 sys 红灯闪烁直至系统启动完毕红灯常亮，而是 heartbeat 模式双闪。此时需在主路由上查看 armbian 内网地址后通过 ssh 进入进行初始化，并将网关设为主路由地址。
 
 ### 更换国内源
 1、以清华源为例编辑  /etc/apt/sources.list 文件
@@ -83,7 +83,7 @@ mv /root/mosdns/mosdns /usr/bin/
 chmod +x /usr/bin/mosdns
 mosdns service install -d /usr/bin -c /etc/mosdns/config.yaml
 ```
-配置文件及规则文件可自行配置，也可参考使用此项目 mosdns 目录中相关文件并放入 /etc/mosdns 中。config.yaml 中 forward_local 地址端口应指向 AdguardHome 监听端口。
+配置文件及规则文件可自行配置，也可参考使用此项目 [mosdns 目录](https://github.com/PaPerseller/r2s-armbian-configure/tree/main/mosdns)中相关文件并放入 /etc/mosdns 中。config.yaml 中 forward_local 地址端口应指向 AdguardHome 监听端口。
 
 启动并加入开机自启
 ```
@@ -117,7 +117,7 @@ TUN 模式下透明代理参考配置文件（此配置未经长期测试，可�
 ```
 mkdir /root/script
 ```
-编辑定时任务 `nano /etc/crontab` 将以下三行加入
+编辑定时任务 `nano /etc/crontab` ，根据方案选择添加，示例：
 ```
 0  2    * * *   root    /root/script/geodat.sh
 0  3    * * *   root    /root/script/geotxt.sh
