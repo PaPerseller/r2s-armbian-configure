@@ -100,7 +100,7 @@ systemctl enable mosdns
 systemctl start v2raya.service
 systemctl enable v2raya.service
 ```
-添加节点并按照下图配置 v2raya  
+通过 http://localhost:2017 进入 ui 界面添加节点并参考下图配置 v2raya  
 ![](v2raya.png)
 
 RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
