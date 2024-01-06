@@ -111,9 +111,9 @@ RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-ip
 TUN 模式下透明代理参考配置文件（此配置为个人方案，可能有误）： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box_tungate.json
 
 ## 一些额外设置
-### 自动更新 xray、sing-box 和 mosdns 资源文件
+### 自动更新 xray 和 mosdns 资源文件
 
-新建脚本目录并上传本项目中 geodat.sh、geotxt.sh、geodb.sh
+新建脚本目录并上传本项目中 geodat.sh、geotxt.sh
 ```
 mkdir /root/script
 ```
@@ -121,7 +121,6 @@ mkdir /root/script
 ```
 0  2    * * *   root    /root/script/geodat.sh
 0  3    * * *   root    /root/script/geotxt.sh
-0  4    * * *   root    /root/script/geodb.sh
 ```
 ### iptables 防火墙（可选，非必须）
 ```
