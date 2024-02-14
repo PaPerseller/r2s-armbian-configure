@@ -72,7 +72,7 @@ plugins:
     type: domain_set
     args:
       files:
-        - "/var/disable-ads.txt"
+        - "/etc/mosdns/rule/ads.txt"
 
   - tag: local_ptr
     type: domain_set
