@@ -108,18 +108,7 @@ plugins:
     args:
       concurrent: 2
       upstreams:
-        - addr: "https://1.0.0.1/dns-query"
-          bootstrap: 223.5.5.5
-          enable_pipeline: false
-          insecure_skip_verify: false
-          idle_timeout: 30
-          enable_http3: false
-        - addr: "https://8.8.8.8/dns-query"
-          bootstrap: 223.5.5.5
-          enable_pipeline: false
-          insecure_skip_verify: false
-          idle_timeout: 30
-          enable_http3: false
+        - addr: "127.0.0.1:sing-box的direct-in端口"
 
   - tag: forward_remote_upstream
     type: sequence

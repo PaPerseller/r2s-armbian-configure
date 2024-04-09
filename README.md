@@ -83,7 +83,7 @@ mv /root/mosdns/mosdns /usr/bin/
 chmod +x /usr/bin/mosdns
 mosdns service install -d /usr/bin -c /etc/mosdns/config.yaml
 ```
-配置文件及规则文件可自行配置，也可参考使用此项目 [mosdns 目录](https://github.com/PaPerseller/r2s-armbian-configure/tree/main/mosdns)中相关文件并放入 /etc/mosdns 中。config.yaml 中 forward_local 地址端口应指向 AdguardHome 监听端口。
+配置文件及规则文件可自行配置，也可参考使用此项目 [mosdns 目录](https://github.com/PaPerseller/r2s-armbian-configure/tree/main/mosdns)中相关文件并放入 /etc/mosdns 中。
 
 启动并加入开机自启
 ```
@@ -108,7 +108,9 @@ RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-ip
 ## 透明网关方案二：安装并配置 sing-box
 可使用 [chise0713/sing-box-install](https://github.com/chise0713/sing-box-install) 项目脚本安装 sing-box
 
-TUN 模式下透明代理参考配置文件（此配置为个人方案，可能有误）： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box_tungate.json
+TUN 模式下透明代理参考配置文件（此配置为个人方案，可能有误）：   
+无 fakeip：https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box/sing-box_tungate.json   
+有 fakeip：https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box/fakeip%2Bui/config-tungate.json
 
 ## 一些额外设置
 ### 自动更新 xray 和 mosdns 资源文件
