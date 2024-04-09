@@ -110,8 +110,7 @@ RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-ip
 
 TUN 模式下透明代理参考配置文件（此配置为个人方案，可能有误）：   
 无 fakeip：https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box/sing-box_tungate.json   
-有 fakeip：https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box/fakeip%2Bui/config-tungate.json
-
+有 fakeip：https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/sing-box/fakeip%2Bclashapi/config-tungate.json
 ## 一些额外设置
 ### 自动更新 xray 和 mosdns 资源文件
 
