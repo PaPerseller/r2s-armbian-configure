@@ -9,13 +9,18 @@ curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/geoip_cn.txt" ""$mirror"
 [ $? -ne 0 ] && rm -rf "$TMPDIR" && exit 1
 
 # geosite_cn.txt
-echo -e "\e[1;32mDownloading "$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/direct-list.txt\e[0m"
-curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/geosite_cn.txt" ""$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/direct-list.txt"
+echo -e "\e[1;32mDownloading "$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/china-list.txt\e[0m"
+curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/geosite_cn.txt" ""$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/china-list.txt"
 [ $? -ne 0 ] && rm -rf "$TMPDIR" && exit 1
 
 # apple-cn.txt
 echo -e "\e[1;32mDownloading "$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/apple-cn.txt\e[0m"
 curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/apple_cn.txt" ""$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/apple-cn.txt"
+[ $? -ne 0 ] && rm -rf "$TMPDIR" && exit 1
+
+# google-cn.txt
+echo -e "\e[1;32mDownloading "$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/google-cn.txt\e[0m"
+curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/google_cn.txt" ""$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/google-cn.txt"
 [ $? -ne 0 ] && rm -rf "$TMPDIR" && exit 1
 
 # geosite-nocn.txt
