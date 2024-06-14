@@ -143,7 +143,7 @@ armbian 在 cpu 默认最高频率 1.3Ghz 下 coremark 多核分数 16933 ，相
 
 使用 `armbian-config` 进入设置项 System -> Hardware 后勾选 rk3328-opp-1.4ghz 和 rk3328-opp-1.5ghz ，保存并应用系统重启。
 
-查看超频是否成功
+查看解锁频率是否成功
 ```
 cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_available_frequencies
 ```
@@ -172,7 +172,7 @@ GOVERNOR=schedutil
 
 dtb 中 pwm-fan 模块和 LED 灯控制还未找到额外参考参数，难以修改。
 
-本流程也可用于非 armbian 的 Linux 系统搭建旁路网关环境。
+本流程思路也可用于非 armbian 的 Linux 系统搭建旁路网关环境。
 
 ## 参考 & 致谢
 * https://blog.haibara.cn/archives/70
