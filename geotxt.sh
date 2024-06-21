@@ -30,3 +30,5 @@ curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/geosite_no_cn.txt" ""$mi
 
 cp -f "$TMPDIR"/* /etc/mosdns/rule
 rm -rf "$TMPDIR"
+
+systemctl restart mosdns
