@@ -20,17 +20,18 @@ def main():
     with open(conf_path) as f:
         conf = json.loads(f.read())
 
-    # 修改 outbound 中 tag 为 proxy 的 sockopt 项，增加 tcpMptcp 和 tcpNoDelay
-    for outbound in conf['outbounds']:
-        if outbound['tag'] == 'proxy':
-            if 'sockopt' in outbound['streamSettings']:
-                outbound['streamSettings']['sockopt']['tcpMptcp'] = True
-                outbound['streamSettings']['sockopt']['tcpNoDelay'] = True
-            else:
-                outbound['streamSettings']['sockopt'] = {
-                    'tcpMptcp': True,
-                    'tcpNoDelay': True
-                }
+    # 修改 outbound 中 tag 为 proxy 的 sockopt 项，增加 tcpMptcp 和 tcpNoDelay, 仅当服务端启用后开启
+    
+    # for outbound in conf['outbounds']:
+    #    if outbound['tag'] == 'proxy':
+    #        if 'sockopt' in outbound['streamSettings']:
+    #            outbound['streamSettings']['sockopt']['tcpMptcp'] = True
+    #            outbound['streamSettings']['sockopt']['tcpNoDelay'] = True
+    #        else:
+    #            outbound['streamSettings']['sockopt'] = {
+    #                'tcpMptcp': True,
+    #                'tcpNoDelay': True
+    #            }
 
     # 修改 routing 中 domainMatcher 的值为 hybrid
     conf['routing']['domainMatcher'] = 'hybrid'
