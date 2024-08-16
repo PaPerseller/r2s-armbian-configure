@@ -20,8 +20,8 @@ def main():
     with open(conf_path) as f:
         conf = json.loads(f.read())
 
-    # 修改 outbound 中 tag 为 proxy 的 sockopt 项，增加 tcpMptcp 和 tcpNoDelay, 仅当服务端启用后开启
-    
+    # 修改 outbound 中 tag 为 proxy 的 sockopt 项，增加并启用 tcpMptcp 和 tcpNoDelay, 需服务端也启用此项
+    # 以下删除注释开启
     # for outbound in conf['outbounds']:
     #    if outbound['tag'] == 'proxy':
     #        if 'sockopt' in outbound['streamSettings']:
