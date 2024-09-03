@@ -105,7 +105,7 @@ systemctl enable v2raya.service
 
 RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
 
-若使用 xray-core，建议参考[ v2raya 官方文档](https://v2raya.org/docs/advanced-application/custom-extra-config/) 使用[生命周期钩子](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/core-hook.py)将 domainMatcher 的值设为 hybrid，若服务器启用了 tcpMptcp，则可选启用客户端  tcpMptcp。
+若使用 xray-core，建议参考[ v2raya 官方文档](https://v2raya.org/docs/advanced-application/custom-extra-config/) 使用本项目生命周期钩子[ python 版](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/core-hook.py)或[ shell 版](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/hook.sh) 将 domainMatcher 的值设为 hybrid，若服务器启用了 tcpMptcp，则可选启用客户端  tcpMptcp。
 
 ## ~~透明网关方案二：安装并配置 sing-box~~
 
