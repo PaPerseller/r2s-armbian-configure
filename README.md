@@ -103,6 +103,8 @@ systemctl enable v2raya.service
 通过 http://localhost:2017 进入 ui 界面添加节点并参考下图配置 v2raya  
 ![](v2raya.png)
 
+可选设置：防止 DNS 污染 - 自定义高级设置 - 域名查询服务器： `127.0.0.1 -> direct`
+
 RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
 
 若使用 xray-core，建议参考[ v2raya 官方文档](https://v2raya.org/docs/advanced-application/custom-extra-config/) 使用本项目生命周期钩子[ python 版](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/core-hook.py)或[ shell 版](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/hook.sh) 将 domainMatcher 的值设为 hybrid，若服务器启用了 tcpMptcp，则可选启用客户端  tcpMptcp。
