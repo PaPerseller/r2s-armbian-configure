@@ -5,6 +5,7 @@ full:a4.mzstatic.com
 full:a5.mzstatic.com
 full:adcdownload.apple.com.akadns.net
 full:adcdownload.apple.com
+full:amp-api-updates.apps.apple.com
 full:amp-api.media.apple.com
 full:api-p-ap-c.smoot.apple.com
 full:api-p-ap-d.smoot.apple.com
@@ -15,6 +16,7 @@ full:appldnld.g.aaplimg.com
 full:appleid.cdn-apple.com
 full:apps.apple.com
 full:apps.mzstatic.com
+full:bag-cdn.itunes-apple.com.akadns.net
 full:cdn-cn1.apple-mapkit.com
 full:cdn-cn2.apple-mapkit.com
 full:cdn-cn3.apple-mapkit.com
@@ -44,10 +46,13 @@ full:clientflow.apple.com
 full:cn-smp-paymentservices.apple.com
 full:configuration.apple.com.akadns.net
 full:configuration.apple.com
+full:crl.apple.com
 full:cstat.apple.com
 full:cstat.cdn-apple.com
 full:dd-cdn.origin-apple.com.akadns.net
 full:dejavu.apple.com
+full:devimages-cdn.apple.com
+full:devstreaming-cdn.apple.com
 full:download.developer.apple.com
 full:experiments.apple.com
 full:gs-loc-cn.apple.com
@@ -60,6 +65,7 @@ full:gsp4-cn.ls.apple.com.edgekey.net
 full:gsp4-cn.ls.apple.com
 full:gsp5-cn.ls.apple.com
 full:gsp85-cn-ssl.ls.apple.com
+full:gspe19-2-cn-ssl.ls-apple.com.akadns.net
 full:gspe19-2-cn-ssl.ls.apple.com
 full:gspe19-cn-ssl.ls.apple.com
 full:gspe19-cn.ls-apple.com.akadns.net
@@ -89,6 +95,7 @@ full:iosapps.itunes.g.aaplimg.com
 full:ipcdn.apple.com
 full:iphone-ld.apple.com
 full:iphone-ld.origin-apple.com.akadns.net
+full:is-ssl.mzstatic.com-cn-lb.itunes-apple.com.akadns.net
 full:is1-ssl.mzstatic.com
 full:is1.mzstatic.com
 full:is2-ssl.mzstatic.com
@@ -108,8 +115,8 @@ full:mesu.apple.com
 full:ml.cdn-apple.com
 full:music.apple.com
 full:ocsp-lb.apple.com.akadns.net
-full:ocsp2-lb.apple.com.akadns.net
 full:ocsp.apple.com
+full:ocsp2-lb.apple.com.akadns.net
 full:ocsp2.apple.com
 full:oscdn.apple.com
 full:oscdn.origin-apple.com.akadns.net

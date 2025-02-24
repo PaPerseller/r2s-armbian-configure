@@ -43,8 +43,7 @@ jq '
     # 以下删除注释开启
     # | .outbounds |= map(
     #     if .tag == "proxy" then
-    #         .streamSettings.sockopt.tcpMptcp = true |
-    #         .streamSettings.sockopt.tcpNoDelay = true
+    #         .streamSettings.sockopt.tcpMptcp = true
     #     else
     #         .
     #     end

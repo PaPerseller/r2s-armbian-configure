@@ -131,7 +131,7 @@ plugins:
   - tag: modify_ttl
     type: sequence
     args:
-      - exec: ttl 0-0
+      - exec: ttl 300-7200
 
   - tag: modify_ddns_ttl
     type: sequence

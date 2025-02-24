@@ -26,11 +26,9 @@ def main():
     #    if outbound['tag'] == 'proxy':
     #        if 'sockopt' in outbound['streamSettings']:
     #            outbound['streamSettings']['sockopt']['tcpMptcp'] = True
-    #            outbound['streamSettings']['sockopt']['tcpNoDelay'] = True
     #        else:
     #            outbound['streamSettings']['sockopt'] = {
-    #                'tcpMptcp': True,
-    #                'tcpNoDelay': True
+    #                'tcpMptcp': True
     #            }
 
     # 修改 routing 中 domainMatcher 的值为 hybrid
