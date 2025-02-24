@@ -39,8 +39,9 @@ jq '
     # 修改 routing 中 domainMatcher 的值为 hybrid
     .routing.domainMatcher = "hybrid"
 
-    # 修改 outbound 中 tag 为 proxy 的 sockopt 项，增加并启用 tcpMptcp 和 tcpNoDelay，需服务端也启用此项
+    # 修改 outbound 中 tag 为 proxy 的 sockopt 项，增加并启用 tcpMptcp ，需服务端也启用此项
     # 以下删除注释开启
+
     # | .outbounds |= map(
     #     if .tag == "proxy" then
     #         .streamSettings.sockopt.tcpMptcp = true
