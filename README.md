@@ -105,9 +105,53 @@ systemctl enable v2raya.service
 
 RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-iplist/master/v2rayA.txt
 
-若使用 xray-core，建议参考[ v2raya 官方文档](https://v2raya.org/docs/advanced-application/custom-extra-config/) 使用本项目生命周期钩子[ python 版](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/core-hook.py)或[ shell 版](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/hook.sh) 将 domainMatcher 的值设为 hybrid，若服务器启用了 tcpMptcp，则可选启用客户端  tcpMptcp。
+若使用 xray-core，建议参考[ v2raya 官方文档](https://v2raya.org/docs/advanced-application/custom-extra-config/) 使用本项目生命周期钩子[ python 版](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/core-hook.py)或[ shell 版](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/hook.sh) 将 domainMatcher 的值设为 hybrid，若服务器启用了 tcpMptcp，则可选启用客户端 tcpMptcp。
 
-## ~~透明网关方案二：安装并配置 sing-box~~
+## 透明网关方案二：安装并配置 xray-core + v2raya 版 nftables
+
+基于方案一，可在完成方案一步骤后，弃用 v2raya 本体以实现更高自由度的配置。也可直接将自用 xray 配置文件结合以下脚本和防火墙规则使用。
+
+将 v2raya 生成的配置文件复制到 xray 配置文件夹：
+```
+cp -r /etc/v2raya/config.json /usr/local/etc/xray/config.json
+``` 
+将本项目中 [xray-start.sh](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/xray-start.sh) 、[xray-stop.sh](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/xray-stop.sh)、[tproxy_ipv4.nft](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/tproxy_ipv4.nft) 下载保存至 `/usr/local/etc/xray` 文件夹。tproxy_ipv4.nft 内部分端口需自行更改。
+
+授予脚本可执行权限
+```
+chmod +x /usr/local/etc/xray/xray-start.sh
+chmod +x /usr/local/etc/xray/xray-stop.sh
+```
+
+xray-start.sh 和 tproxy_ipv4.nft 包含的 iproute 和 nftables 规则基于 v2raya tproxy 模式。
+
+编辑 `/etc/systemd/system/xray.service` 或新建一个 `/etc/systemd/system/xraytp.service` :
+```
+[Unit]
+Description=Xray Service
+Documentation=https://github.com/xtls
+After=network.target nss-lookup.target
+
+[Service]
+User=nobody
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+ExecStartPre=/usr/local/etc/xray/xray-start.sh
+ExecStart=/usr/local/bin/xray run -config /usr/local/etc/xray/config.json
+ExecStopPost=/usr/local/etc/xray/xray-stop.sh
+Restart=on-failure
+RestartPreventExitStatus=23
+LimitNPROC=10000
+LimitNOFILE=1000000
+
+[Install]
+WantedBy=multi-user.target
+```
+
+执行 `systemctl daemon-reload` 并启动服务。
+
+## ~~透明网关方案三：安装并配置 sing-box~~
 
 
 ~~TUN 模式下透明代理参考配置文件（此配置为个人方案，可能有误）：   
@@ -116,10 +160,16 @@ RoutingA 配置可参考： https://raw.githubusercontent.com/PaPerseller/chn-ip
 ## 一些额外设置
 ### 自动更新 xray 和 mosdns 资源文件
 
-新建脚本目录并上传本项目中 geodat.sh、geotxt.sh
+新建脚本目录
 ```
 mkdir /root/script
 ```
+下载本项目中 [geodat.sh](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/geodat.sh)、[geotxt.sh](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/geotxt.sh) 并授予可执行权限
+```
+chmod +x /root/script/geodat.sh
+chmod +x /root/script/geotxt.sh
+```
+
 编辑定时任务 `nano /etc/crontab` ，根据方案选择添加，示例：
 ```
 0  2    * * *   root    /root/script/geodat.sh
@@ -165,7 +215,7 @@ GOVERNOR=schedutil
 ```
 重启 cpufrequtils 服务。
 
-注：armbian 设定 1.5Ghz 电压为 1.45v，部分 openwrt 设定为 1.4v。若使用 1.4v 方案，备份原文件 `/boot/dtb-kernel_version-current-rockchip64/rockchip/overlay/rockchip-rk3328-opp-1.5ghz.dtbo` 后将本项目内同名文件替换进去，执行上述超频步骤。**若未在 armbiam-config 中冻结内核更新，则需在每次内核更新后重新替换。**
+注：armbian 设定 1.5Ghz 电压为 1.45v，部分 openwrt 设定为 1.4v。若使用 1.4v 方案，备份原文件 `/boot/dtb-kernel_version-current-rockchip64/rockchip/overlay/rockchip-rk3328-opp-1.5ghz.dtbo` 后将本项目内[同名文件](https://github.com/PaPerseller/r2s-armbian-configure/blob/main/dtb/rockchip-rk3328-opp-1.5ghz.dtbo)替换进去，执行上述超频步骤。**若未在 armbiam-config 中冻结内核更新，则需在每次内核更新后重新替换。**
 
 
 ## PS.
