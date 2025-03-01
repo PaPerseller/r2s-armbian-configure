@@ -1,4 +1,4 @@
-table inet tproxy {
+table inet v2raya {
     set whitelist {
         type ipv4_addr
         flags interval
