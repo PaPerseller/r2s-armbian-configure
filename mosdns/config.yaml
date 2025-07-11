@@ -2,35 +2,45 @@ log:
   level: warn
   file: "/tmp/mosdns.log"
 
-api:
-  http: "0.0.0.0:9091"
+#api:
+ # http: "0.0.0.0:9091"
 
 include: []
 
 plugins:
+  # 国内域名
   - tag: geosite_cn
     type: domain_set
     args:
       files:
         - "/etc/mosdns/rule/geosite_cn.txt"
 
+  # 国内 IP
   - tag: geoip_cn
     type: ip_set
     args:
       files:
         - "/etc/mosdns/rule/geoip_cn.txt"
 
+  # 苹果域名
   - tag: geosite_apple
     type: domain_set
     args:
       files:
         - "/etc/mosdns/rule/apple_cn.txt"
 
+  # 国外域名
   - tag: geosite_no_cn
     type: domain_set
     args:
       files:
         - "/etc/mosdns/rule/geosite_no_cn.txt"
+
+  # Google 国内域名
+  - tag: google_cn
+    type: domain_set
+    args:
+      files:
         - "/etc/mosdns/rule/google_cn.txt"
 
   - tag: whitelist
@@ -73,7 +83,7 @@ plugins:
     type: domain_set
     args:
       files:
-        - "/etc/mosdns/rule/ads.txt"
+        - "/etc/mosdns/rule/adlist.txt"
 
   - tag: local_ptr
     type: domain_set
@@ -81,6 +91,7 @@ plugins:
       files:
         - "/etc/mosdns/rule/local-ptr.txt"
 
+  # 缓存
   - tag: lazy_cache
     type: cache
     args:
@@ -89,14 +100,7 @@ plugins:
       dump_file: /etc/mosdns/cache.dump
       dump_interval: 3600
 
-  - tag: forward_xinfeng_udp
-    type: forward
-    args:
-      concurrent: 2
-      upstreams:
-        - addr: "114.114.114.114"
-        - addr: "114.114.115.115"
-
+  # 转发至本地服务器
   - tag: forward_local
     type: forward
     args:
@@ -104,29 +108,33 @@ plugins:
       upstreams:
         - addr: "127.0.0.1:Adg的dns服务端口"
 
+  # 转发至远程服务器
   - tag: forward_remote
     type: forward
     args:
-      concurrent: 2
+      concurrent: 3
       upstreams:
-        - addr: "https://1.0.0.1/dns-query"
+        - addr: "https://cloudflare-dns.com/dns-query"
+          dial_addr: "1.1.1.1"
+          bootstrap: 223.5.5.5
+          enable_pipeline: true
+          insecure_skip_verify: false
+          idle_timeout: 10
+          enable_http3: false
+        - addr: "tls://dns.google"
+          dial_addr: "8.8.8.8"
+          bootstrap: 223.5.5.5
+          enable_pipeline: true
+          insecure_skip_verify: false
+          idle_timeout: 10
+          enable_http3: false
+        - addr: "https://dns.google/dns-query"
+          dial_addr: "8.8.8.8"
           bootstrap: 223.5.5.5
           enable_pipeline: false
           insecure_skip_verify: false
           idle_timeout: 30
           enable_http3: false
-        - addr: "https://8.8.8.8/dns-query"
-          bootstrap: 223.5.5.5
-          enable_pipeline: false
-          insecure_skip_verify: false
-          idle_timeout: 30
-          enable_http3: false
-
-  - tag: forward_remote_upstream
-    type: sequence
-    args:
-      - exec: prefer_ipv4
-      - exec: $forward_remote
 
   - tag: modify_ttl
     type: sequence
@@ -138,6 +146,21 @@ plugins:
     args:
       - exec: ttl 5-5
 
+  # 国内解析
+  - tag: local_sequence
+    type: sequence
+    args:
+      - exec: prefer_ipv4
+      - exec: $forward_local
+
+  # 国外解析
+  - tag: remote_sequence
+    type: sequence
+    args:
+      - exec: prefer_ipv4
+      - exec: $forward_remote
+
+  # 有响应终止返回
   - tag: has_resp_sequence
     type: sequence
     args:
@@ -148,26 +171,27 @@ plugins:
       - matches: has_resp
         exec: accept
 
-  - tag: query_is_non_local_ip
+  # fallback 用本地服务器 sequence
+  # 返回非国内 ip 则 drop_resp
+  - tag: query_is_local_ip
     type: sequence
     args:
-      - exec: $forward_local
+      - exec: $local_sequence
       - matches: "!resp_ip $geoip_cn"
         exec: drop_resp
 
+  # fallback 用远程服务器 sequence
+  - tag: query_is_remote
+    type: sequence
+    args:
+      - exec: $remote_sequence
+
+  # fallback 用远程服务器 sequence
   - tag: fallback
     type: fallback
     args:
-      primary: query_is_non_local_ip
-      secondary: forward_remote_upstream
-      threshold: 500
-      always_standby: true
-
-  - tag: apple_domain_fallback
-    type: fallback
-    args:
-      primary: query_is_non_local_ip
-      secondary: forward_xinfeng_udp
+      primary: query_is_local_ip
+      secondary: query_is_remote
       threshold: 100
       always_standby: true
 
@@ -176,37 +200,45 @@ plugins:
     args:
       - matches: "!qname $geosite_apple"
         exec: return
-      - exec: $apple_domain_fallback
+      - exec: $forward_local
+      - matches: "!resp_ip $geoip_cn"
+        exec: drop_resp
+      - matches: "!has_resp"
+        exec: $forward_local
 
   - tag: query_is_ddns_domain
     type: sequence
     args:
       - matches: qname $ddnslist
-        exec: $forward_local
+        exec: $local_sequence
 
+  # 查询国内域名
   - tag: query_is_local_domain
     type: sequence
     args:
       - matches: qname $geosite_cn
-        exec: $forward_local
+        exec: $local_sequence
 
+  # 查询国外域名和谷歌中国域名
   - tag: query_is_no_local_domain
     type: sequence
     args:
-      - matches: qname $geosite_no_cn
-        exec: $forward_remote_upstream
+      - matches: 
+        - qname $geosite_no_cn
+        - qname $google_cn
+        exec: $remote_sequence
 
   - tag: query_is_whitelist_domain
     type: sequence
     args:
       - matches: qname $whitelist
-        exec: $forward_local
+        exec: $local_sequence
 
   - tag: query_is_greylist_domain
     type: sequence
     args:
       - matches: qname $greylist
-        exec: $forward_remote_upstream
+        exec: $remote_sequence
 
   - tag: query_is_reject_domain
     type: sequence
@@ -222,6 +254,9 @@ plugins:
       - matches: qtype 65
         exec: reject 3
 
+  # 主要的运行逻辑插件
+  # sequence 插件中调用的插件 tag 必须在 sequence 前定义，
+  # 否则 sequence 找不到对应插件。
   - tag: main_sequence
     type: sequence
     args:
@@ -233,6 +268,7 @@ plugins:
         - "!qname $adlist"
         - "!qname $local_ptr"
         exec: $lazy_cache
+      - exec: jump has_resp_sequence
       - exec: $redirect
       - exec: jump has_resp_sequence
       - exec: $query_is_apple_domain
