@@ -15,6 +15,13 @@ plugins:
       files:
         - "/etc/mosdns/rule/geosite_cn.txt"
 
+  # 国内 tld 域名
+  - tag: tld_cn
+    type: domain_set
+    args:
+      files:
+        - "/etc/mosdns/rule/tld_cn.txt"
+
   # 国内 IP
   - tag: geoip_cn
     type: ip_set
@@ -115,21 +122,21 @@ plugins:
       concurrent: 3
       upstreams:
         - addr: "https://cloudflare-dns.com/dns-query"
-          dial_addr: "1.1.1.1"
+          #dial_addr: "1.1.1.1"
           bootstrap: 223.5.5.5
           enable_pipeline: true
           insecure_skip_verify: false
           idle_timeout: 10
           enable_http3: false
         - addr: "tls://dns.google"
-          dial_addr: "8.8.8.8"
+          #dial_addr: "8.8.8.8"
           bootstrap: 223.5.5.5
           enable_pipeline: true
           insecure_skip_verify: false
           idle_timeout: 10
           enable_http3: false
         - addr: "https://dns.google/dns-query"
-          dial_addr: "8.8.8.8"
+          #dial_addr: "8.8.8.8"
           bootstrap: 223.5.5.5
           enable_pipeline: false
           insecure_skip_verify: false
@@ -216,7 +223,7 @@ plugins:
   - tag: query_is_local_domain
     type: sequence
     args:
-      - matches: qname $geosite_cn
+      - matches: qname $geosite_cn $tld_cn
         exec: $local_sequence
 
   # 查询国外域名和谷歌中国域名
@@ -224,8 +231,7 @@ plugins:
     type: sequence
     args:
       - matches: 
-        - qname $geosite_no_cn
-        - qname $google_cn
+        - qname $geosite_no_cn $google_cn
         exec: $remote_sequence
 
   - tag: query_is_whitelist_domain

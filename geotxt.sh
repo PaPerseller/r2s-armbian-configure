@@ -13,6 +13,11 @@ echo -e "\e[1;32mDownloading "$mirror"https://raw.githubusercontent.com/Loyalsol
 curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/geosite_cn.txt" ""$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/china-list.txt"
 [ $? -ne 0 ] && rm -rf "$TMPDIR" && exit 1
 
+# tld-cn.txt
+echo -e "\e[1;32mDownloading "$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/direct-tld-list.txt\e[0m"
+curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/tld_cn.txt" ""$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/direct-tld-list.txt"
+[ $? -ne 0 ] && rm -rf "$TMPDIR" && exit 1
+
 # apple-cn.txt
 echo -e "\e[1;32mDownloading "$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/apple-cn.txt\e[0m"
 curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/apple_cn.txt" ""$mirror"https://raw.githubusercontent.com/Loyalsoldier/v2ray-rules-dat/release/apple-cn.txt"
@@ -30,3 +35,5 @@ curl --connect-timeout 60 -m 900 --ipv4 -kfSLo "$TMPDIR/geosite_no_cn.txt" ""$mi
 
 cp -f "$TMPDIR"/* /etc/mosdns/rule
 rm -rf "$TMPDIR"
+
+systemctl restart mosdns

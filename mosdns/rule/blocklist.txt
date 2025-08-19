@@ -1,1 +1,13 @@
-domain:ac.cnrouter.com
+domain:ads.fmdisk.com
+domain:ads.feemoo.com
+domain:googleads.g.doubleclick.net
+domain:ads.google.com
+domain:afd.l.google.com
+domain:doubleclick.com
+domain:doubleclick.net
+domain:google-analytics.com
+domain:googlesyndication.com
+domain:googletagmanager.com
+domain:googletakes.com
+domain:mobileads.google.com
+keyword:googleads
