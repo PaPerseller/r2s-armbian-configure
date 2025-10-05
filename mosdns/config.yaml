@@ -99,7 +99,7 @@ plugins:
         - "/etc/mosdns/rule/local-ptr.txt"
 
   # 缓存
-  - tag: lazy_cache
+  - tag: remote_cache
     type: cache
     args:
       size: 8000
@@ -164,8 +164,13 @@ plugins:
   - tag: remote_sequence
     type: sequence
     args:
+      - exec: $remote_cache
+      - matches: has_resp
+        exec: accept
       - exec: prefer_ipv4
       - exec: $forward_remote
+      - matches: has_resp
+        exec: $remote_cache
 
   # 有响应终止返回
   - tag: has_resp_sequence
@@ -267,13 +272,6 @@ plugins:
     type: sequence
     args:
       - exec: $hosts
-      - exec: jump has_resp_sequence
-      - matches:
-        - "!qname $ddnslist"
-        - "!qname $blocklist"
-        - "!qname $adlist"
-        - "!qname $local_ptr"
-        exec: $lazy_cache
       - exec: jump has_resp_sequence
       - exec: $redirect
       - exec: jump has_resp_sequence
